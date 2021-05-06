@@ -49,4 +49,10 @@ export default function TaroPluginPolymorphic(ctx: IPluginContext, options: Taro
   if (frameworkExt && frameworkExt !== scriptExt) {
     addExt(frameworkExt);
   }
+
+  // 在程序中可以访问 process.env.<typeName>
+  if (ctx.initialConfig.defineConstants == null || !(options.typeName! in ctx.initialConfig.defineConstants)) {
+    ctx.initialConfig.defineConstants = ctx.initialConfig.defineConstants || {};
+    ctx.initialConfig.defineConstants[options.typeName!] = JSON.stringify(type);
+  }
 }
