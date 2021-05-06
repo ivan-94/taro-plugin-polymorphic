@@ -15,12 +15,38 @@ const DEFAULT_OPTIONS: TaroPluginPolymorphicOption = {
 export default function TaroPluginPolymorphic(ctx: IPluginContext, options: TaroPluginPolymorphicOption = {}) {
   options = { ...DEFAULT_OPTIONS, ...options };
 
-  const type = process.env[options.typeName];
+  const type = process.env[options.typeName!];
   const framework = ctx.initialConfig.framework;
 
-  if (!type || !framework) {
+  if (!type) {
     return;
   }
 
-  const scriptExt = ctx.helper.FRAMEWORK_MAP[framework];
+  console.log(`当前细分平台: ${options.typeName}=${type}`);
+
+  const helper = ctx.helper !== require('@tarojs/helper') ? require('@tarojs/helper') : ctx.helper;
+
+  const scriptExt = helper.SCRIPT_EXT;
+  const cssExt = helper.CSS_EXT;
+  const frameworkExtMap = helper.FRAMEWORK_EXT_MAP;
+
+  const addExt = (exts: string[]) => {
+    exts
+      .map((i) => `.${type}${i}`)
+      .reverse()
+      .forEach((ext) => {
+        exts.unshift(ext);
+      });
+  };
+
+  // 添加多态扩展名
+  addExt(scriptExt);
+  addExt(cssExt);
+
+  // @ts-expect-error
+  let frameworkExt = frameworkExtMap[framework];
+
+  if (frameworkExt && frameworkExt !== scriptExt) {
+    addExt(frameworkExt);
+  }
 }
