@@ -61,3 +61,11 @@ const config = {
   }
 }
 ```
+
+
+# 注意事项
+
+- app.config.ts 不支持。你可以通过 process.env.<INDUSTRY> 来区分不同业态
+- 仅支持 JavaScript 文件。对于 CSS、图片等静态资源必须**全命名**导入。举个例子
+  + foo.demo.ts, 手动导入 foo.demo.css
+  + foo.ts, 导入 foo.css

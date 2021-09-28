@@ -50,6 +50,18 @@ export default function TaroPluginPolymorphic(ctx: IPluginContext, options: Taro
     addExt(frameworkExt);
   }
 
+  // 修改 webpack 扩展名
+  ctx.modifyWebpackChain(({ chain }) => {
+    let exts = [...((chain.resolve.extensions.values() as string[]) || [])];
+    if (exts && exts.length) {
+      addExt(exts);
+    } else {
+      exts = scriptExt;
+    }
+
+    chain.resolve.extensions.clear().merge(exts);
+  });
+
   // 在程序中可以访问 process.env.<typeName>
   if (ctx.initialConfig.defineConstants == null || !(options.typeName! in ctx.initialConfig.defineConstants)) {
     ctx.initialConfig.defineConstants = ctx.initialConfig.defineConstants || {};
