@@ -1,6 +1,6 @@
 {
   "name": "taro-plugin-polymorphic",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Taro 多业态文件名区分",
   "main": "./dist/index.js",
   "author": "ivan <carney520@hotmail.com>",
