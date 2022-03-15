@@ -3,13 +3,13 @@ import { IPluginContext } from '@tarojs/service';
 export interface TaroPluginPolymorphicOption {
   /**
    * 环境变量名称, 该插件会从 process.env[typeName] 中获取当前类型
-   * 默认是 TARO_TYPE
+   * 默认是 INDUSTRY
    */
   typeName?: string;
 }
 
 const DEFAULT_OPTIONS: TaroPluginPolymorphicOption = {
-  typeName: 'TARO_TYPE',
+  typeName: 'INDUSTRY',
 };
 
 export default function TaroPluginPolymorphic(ctx: IPluginContext, options: TaroPluginPolymorphicOption = {}) {
@@ -65,6 +65,8 @@ export default function TaroPluginPolymorphic(ctx: IPluginContext, options: Taro
   // 在程序中可以访问 process.env.<typeName>
   if (ctx.initialConfig.defineConstants == null || !(options.typeName! in ctx.initialConfig.defineConstants)) {
     ctx.initialConfig.defineConstants = ctx.initialConfig.defineConstants || {};
-    ctx.initialConfig.defineConstants[options.typeName!] = JSON.stringify(type);
+    ctx.initialConfig.defineConstants[options.typeName!] = ctx.initialConfig.defineConstants[
+      `process.env.${options.typeName!}`
+    ] = JSON.stringify(type);
   }
 }

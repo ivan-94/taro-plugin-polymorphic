@@ -34,7 +34,7 @@ const config = {
 };
 ```
 
-默认根据 `TARO_TYPE` 环境变量来指定细分平台。这个支持配置:
+默认根据 `INDUSTRY` 环境变量来指定细分平台。这个支持配置:
 
 ```js
 // config/index.js
@@ -59,6 +59,30 @@ const config = {
     "dev:weapp:retail": "cross-env INDUSTRY=retail npm run dev:weapp",
     "dev:weapp:estate": "cross-env INDUSTRY=estate npm run dev:weapp"
   }
+}
+```
+
+<br>
+
+# 使用
+
+假设模块组织如下：
+
+```shell
+index.retail.ts
+index.estate.ts
+index.ts
+```
+
+当使用 INDUSTRY 环境变量指定为 retail 时， 将优先加载 index.retail.ts。
+
+在 Javascript 模块中获取 INDUSTRY：
+
+```js
+if (process.env.INDUSTRY === 'retail') {
+  // 零售业态
+} else {
+  // 默认业态
 }
 ```
 
