@@ -28,7 +28,7 @@ export default function TaroPluginPolymorphic(ctx: IPluginContext, options: Taro
 
   const scriptExt = helper.SCRIPT_EXT;
   const cssExt = helper.CSS_EXT;
-  const frameworkExtMap = helper.FRAMEWORK_EXT_MAP;
+  const frameworkExtMap = helper.FRAMEWORK_EXT_MAP ?? {};
 
   const addExt = (exts: string[]) => {
     exts
